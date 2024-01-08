@@ -6,6 +6,7 @@ import VueSetupExtend from "vite-plugin-vue-setup-extend";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base:'./',
   plugins: [vue(), VueSetupExtend()],
   resolve: {
     alias: {
