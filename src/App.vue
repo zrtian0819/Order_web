@@ -1,6 +1,6 @@
 <template>
   <div class="title">
-    <h1>Joe Zhang 餐點統計工具📝</h1>
+    <h1>😋人天的餐點小工具</h1>
   </div>
 
   <Order />
@@ -15,6 +15,7 @@ body,
 html {
   margin: 0;
   user-select: none;
+  min-width: 500px;
 }
 
 h1,
@@ -46,6 +47,7 @@ input {
   color: #405240;
   font-weight: 600;
   font-size: 1rem;
+  letter-spacing: 2px;
 }
 input:hover {
   background-color: rgba(180, 229, 180, 0.5);

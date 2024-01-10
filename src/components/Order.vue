@@ -6,7 +6,7 @@
         ><input :type="i.type" v-model="i.content" />
       </div>
 
-      <button @click="pushInList">確定</button>
+      <button @click="pushInList">新增項目</button>
     </div>
     <div class="prodList" v-show="list.length > 0">
       <div class="items" v-for="j in list" :key="j.key">
@@ -14,16 +14,24 @@
         <div class="name att">{{ j.name }}</div>
         <div class="number att">x{{ j.num }}</div>
         <div class="price att">${{ j.price }}</div>
+        <div class="member att">{{ j.member }}</div>
         <div class="note att">{{ j.note }}</div>
         <div class="delete" @click="delItem(j)">×</div>
       </div>
+    </div>
+
+    <div class="result" v-show="total">
+      <div class="totalPrice">總共 {{ total }} 元</div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup name="Order">
 import { ref } from "vue";
+
 let list = ref([]);
+
+alert("修改功能還未實現");
 
 let info = [
   {
@@ -45,10 +53,16 @@ let info = [
     content: "40",
   },
   {
+    description: "人員",
+    type: "text",
+    class: "member",
+    content: "Joe",
+  },
+  {
     description: "備註",
     type: "text",
     class: "note",
-    content: "去冰無糖加珍珠",
+    content: "去冰/無糖/加珍珠",
   },
 ];
 
@@ -56,24 +70,28 @@ let info = [
 function pushInList() {
   // 先判定內容是否完整
 
-  for (let i = 0; i < info.length; i++) {
+  for (let i = 0; i < info.length - 1; i++) {
     if (info[i].content == "") {
-      alert("[" + info[i].description + "] 沒有填寫完整");
+      alert("您的 [" + info[i].description + "] 沒有填寫完整");
       return;
     }
   }
 
   let item = {
     name: info[0].content,
-    num: info[1].content,
-    price: info[2].content,
-    note: info[3].content,
+    num: Number(info[1].content),
+    price: Number(info[2].content),
+    member: info[3].content,
+    note: info[4].content,
     key: Date.now(),
   };
 
   list.value.push(item);
 
-  console.log(item);
+  // console.log(item);
+  console.log(list.value);
+
+  setTotal();
 }
 
 function delItem(j) {
@@ -85,11 +103,26 @@ function delItem(j) {
     // console.log(objStamp);
 
     if (list.value[i].key == objStamp) {
-      console.log("🔺刪除了品項: " + list.value[i].name);
+      console.log("🔺您刪除了品項: " + list.value[i].name);
       list.value.splice(i, 1);
+
+      setTotal();
       return;
     }
   }
+}
+
+let total = ref(0);
+
+function setTotal() {
+  // console.log("程式有被執行");
+  // console.log(list.value.length);
+
+  let sum = 0;
+  for (let k = 0; k < list.value.length; k++) {
+    sum += list.value[k].num * list.value[k].price;
+  }
+  total.value = sum;
 }
 </script>
 
@@ -123,7 +156,7 @@ function delItem(j) {
   align-items: center;
   border-bottom: 2px solid #99c199;
   text-align: center;
-  width: 80vw;
+  width: 80%;
   flex-direction: column;
   /* background-color: rgb(247, 247, 247); */
 }
@@ -136,15 +169,16 @@ function delItem(j) {
   border-right: 2px solid #799a79;
   border-bottom: 2px solid #799a79;
   margin-top: 5px;
-  box-shadow: 0px 0px 1rem rgba(180, 229, 180, 0.5);
-  /* border-radius: 5px; */
+  box-shadow: 0px 0px 1rem rgba(180, 229, 180, 1);
+  border-radius: 5px;
   width: 90%;
   position: relative;
-  transition: 0.3s;
+  transition: 0.5s;
   user-select: text;
+  letter-spacing: 1px;
 }
 .items:hover {
-  transform: scale(1.01);
+  background-color: rgba(180, 229, 180, 0.6);
 }
 
 .att {
@@ -160,6 +194,15 @@ function delItem(j) {
   font-weight: 700;
   height: 2rem;
   width: 15rem;
+  font-size: 1.2rem;
+}
+
+.items .member {
+  font-weight: 800;
+  padding: 5px;
+  border-radius: 7px;
+  /* background-color: #93defa; */
+  background-color: #fce38b;
 }
 
 .items .note {
@@ -184,6 +227,16 @@ function delItem(j) {
 
 .items .att {
   margin: 0 20px 0 0;
+}
+
+.result {
+  /* border: 1px solid #000; */
+  margin: 15px 0 50px 0;
+  color: red;
+  font-size: 2rem;
+  font-weight: 700;
+  position: relative;
+  left: 30vw;
 }
 
 @media (max-width: 768px) {
