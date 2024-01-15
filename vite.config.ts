@@ -6,7 +6,7 @@ import VueSetupExtend from "vite-plugin-vue-setup-extend";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:'./',
+  base: "/Order_web/",
   plugins: [vue(), VueSetupExtend()],
   resolve: {
     alias: {
