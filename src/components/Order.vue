@@ -24,6 +24,22 @@
       <div class="totalPrice">總共 {{ total }} 元</div>
     </div>
   </div>
+
+  <div class="analysis">
+    <div class="conclusion">
+      <button
+        class="createPopList"
+        @click="showPopList"
+        v-show="list.length > 0"
+      >
+        產生統計
+      </button>
+      <div class="resultList" v-show="popList">
+        <h2>餐點明細</h2>
+        <div class="close" @click="showPopList">×</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup name="Order">
@@ -124,6 +140,12 @@ function setTotal() {
   }
   total.value = sum;
 }
+
+let popList = ref(false);
+
+function showPopList() {
+  popList.value = !popList.value;
+}
 </script>
 
 <style scoped>
@@ -144,7 +166,7 @@ function setTotal() {
 }
 
 * {
-  /* border: 1px solid #000; */
+  /* border: 1px solid gray; */
   box-sizing: border-box;
 }
 
@@ -239,6 +261,43 @@ function setTotal() {
   left: 30vw;
 }
 
+.resultList {
+  background-color: white;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 5px solid #799a79;
+  /* display: none; */
+}
+
+.resultList h2 {
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 20px;
+  font-size: 2rem;
+  color: #374637;
+}
+
+.resultList .close {
+  position: absolute;
+  font-size: 2rem;
+  right: 3%;
+  top: 3%;
+  font-weight: 900;
+  color: #374637;
+}
+
+.analysis {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .prodList {
     width: 100%;
@@ -254,3 +313,4 @@ function setTotal() {
   }
 }
 </style>
+@/hooks/popList

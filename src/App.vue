@@ -15,7 +15,7 @@ body,
 html {
   margin: 0;
   user-select: none;
-  min-width: 500px;
+  /* min-width: 500px; */
 }
 
 h1,
